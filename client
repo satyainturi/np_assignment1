@@ -1,0 +1,80 @@
+#!/usr/bin/python3
+import socket		 	                      
+import sys
+
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+user_network   = sys.argv[1]
+split       = user_network.split(':')
+host        = str(split[0])                           
+port        = int(split[1])
+
+
+s.connect((host, port))                           
+						   
+print("It is connected to following address :",user_network)
+here_is_message = s.recv(1024).decode()
+print("\n", here_is_message)
+s.send("OK\n".encode())
+
+while(1):
+	T=s.recv(1024).decode()
+	print(T)
+	here_is_var=T.split()
+	if not(len(here_is_var) < 1):
+		if here_is_var[0] == "sub":
+			b = int(here_is_var[1])-int(here_is_var[2])
+			b1=str(b)+"\n"
+			s.send(b1.encode())
+			print("The result obtained is ", str(b))
+		   
+		elif here_is_var[0] == "add":
+			a = int(here_is_var[1])+int(here_is_var[2])
+			a1=str(a)+"\n"
+			s.send(a1.encode())
+			print("The result obtained is ",str(a) )
+			
+		elif here_is_var[0] == "div":
+			e = int(here_is_var[1])/int(here_is_var[2])
+			a1=str(e)+"\n"
+			s.send(a1.encode())   
+			print('The result obtained is %8.8g' %e)
+		  
+		elif here_is_var[0] == "mul":
+			d = int(here_is_var[1])*int(here_is_var[2])
+			a1=str(d)+"\n"
+			s.send(a1.encode())
+			print("The result obtained is ", str(d))
+		   
+		elif  here_is_var[0] == "fsub":
+			fb = float(here_is_var[1])-float(here_is_var[2])
+			a1=str(fb)+"\n"
+			s.send(a1.encode())
+			print('The result obtained is %8.8g'%fb)
+		  
+		elif here_is_var[0] == "fadd":
+			fa = float(here_is_var[1])+float(here_is_var[2])
+			a1=str(fa)+"\n"
+			s.send(a1.encode())
+			print('The result obtained is %8.8g' %fa)
+			
+		elif  here_is_var[0] == "fdiv":
+			fe = float(here_is_var[1])/float(here_is_var[2])
+			a1=str(fe)+"\n"
+			s.send(a1.encode())
+			print('The result obtained is %8.8g' %fe)
+			
+		elif here_is_var[0] == "fmul":
+			fd = float(here_is_var[1])*float(here_is_var[2])
+			a1=str(fd)+"\n"
+			s.send(a1.encode())
+			print('The result obtained is %8.8g' %fd)
+			
+		resp = s.recv(1024).decode()
+		print (resp)
+	break
+
+		
+s.close()
+
