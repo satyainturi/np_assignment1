@@ -1,0 +1,160 @@
+#!/usr/bin/python3
+import socket		 	            
+import sys
+import random
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+user_network  = sys.argv[1]
+split      = user_network.split(':')	  		    
+ip       = str(split[0])                     
+port       = int(split[1])
+
+s.bind((ip, port)) 			    
+s.listen(1)
+
+print("Server is ready to work")
+
+A = ["add", "sub", "mul", "div", "fadd", "fsub", "fdiv", "fmul"]
+
+while 1:
+	c, addr = s.accept() 		    
+	print("It is connected to :",user_network)
+	c.send("TEXT TCP 1.0\n".encode())
+	return_msg = c.recv(1024).decode()
+	print(return_msg)
+
+
+	while 1:
+		my_random_var= random.choice(A)
+		o=1
+		if my_random_var == "add":
+			my_var_1 = random.randint(1,100)
+			my_var_2 = random.randint(1,150)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			addition = my_var_1 + my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ("The result obtained is", addition)
+			if addition == int(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+			o=0
+		if my_random_var == "sub":
+			my_var_1 = random.randint(1,100)
+			my_var_2 = random.randint(1,75)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			subtraction = my_var_1 - my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ("The result obtained is", subtraction)
+			if subtraction == int(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+
+		if my_random_var == "mul":
+			my_var_1 = random.randint(1,1000)
+			my_var_2 = random.randint(1,1500)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			multiplication = my_var_1 * my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ("The result obtained is", multiplication)
+			if multiplication == int(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+			o=0
+
+		if my_random_var == "div":
+			my_var_1 = random.randint(1,100)
+			my_var_2 = random.randint(1,150)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			division = my_var_1 / my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ('The result obtained is %8.8g' %division)
+			if division == float(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+			
+			o=0
+		if my_random_var == "fadd":
+			my_var_1 = random.uniform(1,100)
+			my_var_2 = random.uniform(1,150)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			faddition = my_var_1 + my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ('The result obtained is %8.8g' %faddition)
+			if faddition == float(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+			
+			o=0
+
+		if my_random_var == "fsub":
+			my_var_1 = random.uniform(1,100)
+			my_var_2 = random.uniform(1,75)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			fsubtraction = my_var_1 - my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ('The result obtained is %8.8g' %fsubtraction)
+			if fsubtraction == float(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+				
+			o=0
+
+		if my_random_var == "fmul":
+			my_var_1 = random.uniform(1,100)
+			my_var_2 = random.uniform(1,150)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			fmultiplication = my_var_1 * my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ('The result obtained is %8.8g' %fmultiplication)
+			if fmultiplication == float(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+			
+			o=0
+
+		if my_random_var == "fdiv":
+			my_var_1 = random.uniform(1,100)
+			my_var_2 = random.uniform(1,150)
+			L = my_random_var + " " + str(my_var_1) + " " + str(my_var_2)
+			fdivision = my_var_1 / my_var_2
+			c.send(L.encode())
+			result_obtaining_is=c.recv(1024).decode()
+			print ('The result obtained is %8.8g' %fdivision)
+			if fdivision == float(result_obtaining_is):
+				c.send("OK\n".encode())
+				
+			else:
+				c.send("ERROR\n".encode())
+				
+			o=0
+
+			
+		
+		if o==1:
+				   print ("The output is Wrong")
+		break
+
+
+c.close()
